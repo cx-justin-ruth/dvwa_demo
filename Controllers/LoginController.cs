@@ -31,8 +31,32 @@ namespace purchasepal_core
         {
             return plain;
         }
+//added in AI Remediation Fix 
+private static void Login(string username, string password)
+{
+    try
+    {
+        using (var conn = new SqlConnection("conn..."))
+        {
+            var sql = "SELECT * FROM Users WHERE username = @username AND pwd = @password";
+            using (var cmd = new SqlCommand(sql))
+            {
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@password", password);
+                cmd.Connection = conn;
+                cmd.ExecuteScalar();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        // handle exception
+    }
+}
 
-        private static void Login(string username,string password)
+
+
+      /*  private static void Login(string username,string password)
         {
             try
             {
@@ -53,6 +77,6 @@ namespace purchasepal_core
                 Console.WriteLine("An error has occurred !!");
             }
            
-        }
+        } */
     }
 }
