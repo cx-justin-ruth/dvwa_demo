@@ -31,14 +31,6 @@ namespace purchasepal_core
         {
             return plain;
         }
-//added in AI Remediation Fix 
-    catch (Exception ex)
-    {
-        // handle exception
-    }
-}
-
-
 
         private static void Login(string username,string password)
         {
@@ -61,6 +53,6 @@ namespace purchasepal_core
                 Console.WriteLine("An error has occurred !!");
             }
            
-        } 
+        }
     }
 }
