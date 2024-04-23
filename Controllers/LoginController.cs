@@ -32,28 +32,26 @@ namespace purchasepal_core
             return plain;
         }
 //added in AI Remediation Fix 
-private int GetUserId_Unsafe(HttpRequest request) 
+private int GetUserId_Safe(HttpRequest request)
 {
     int userId = 0;
     
     string userName = request.Form["UserName"];
-    string sql = "SELECT [UserID] FROM [AppUsers] WHERE [UserName] = '" + userName + "' " ;
-
-    using (SqlConnection conn = GetConnection()) 
+    string sql = "SELECT [UserID] FROM [AppUsers] WHERE [UserName] = @UserName";
+    
+    using (SqlConnection conn = GetConnection())
     {
         using (SqlCommand command = new SqlCommand(sql, conn))
         {
-            using (SqlDataReader reader = command.ExecuteReader())
-            {
-                reader.Read(); 
-                userId = reader.GetInt32(0);
-            }
+            command.Parameters.AddWithValue("@UserName", userName);
+            
+            conn.Open();
+            userId = (int)command.ExecuteScalar();
         }
     }
-
+    
     return userId;
 }
-
 
       /*  private static void Login(string username,string password)
         {
